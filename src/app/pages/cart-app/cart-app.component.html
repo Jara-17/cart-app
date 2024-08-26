@@ -1,0 +1,15 @@
+<navbar [items]="items" [showCart]="showCart" (openCartEventEmitter)="openCart()"/>
+
+<main class="p-8">
+
+  <div class="flex flex-col xl:flex-row justify-between gap-8">
+    <catalog [products]="products" (productEventEmitter)="onAddCart($event)" />
+    @if (showCart) {
+    <cart
+      [total]="total"
+      [items]="items"
+      (idProductEventEmitter)="onDeleteCart($event)"
+    />
+    }
+  </div>
+</main>

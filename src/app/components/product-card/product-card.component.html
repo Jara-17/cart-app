@@ -1,0 +1,15 @@
+<div class="product">
+    <h3 class="product-name">{{product.name}}</h3>
+    <p class="product-price">{{product.price | currency: 'EUR'}}</p>
+    <p class="product-description">{{product.description}}</p>
+    <div class="flex justify-end items-center mt-4">
+      <button
+        class="
+          btn-primary
+        "
+        (click)="onAddCart(product)"
+      >
+        Agregar al Carro
+      </button>
+    </div>
+</div>

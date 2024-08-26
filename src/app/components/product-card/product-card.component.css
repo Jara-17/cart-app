@@ -1,0 +1,15 @@
+.product {
+  @apply  rounded-lg shadow-md shadow-indigo-500 border border-indigo-500 overflow-hidden p-6
+}
+
+.product-name {
+  @apply text-xl font-semibold mb-2 text-white
+}
+
+.product-price {
+  @apply text-2xl font-bold text-gray-200 mb-4
+}
+
+.product-description {
+  @apply text-gray-300 text-base
+}

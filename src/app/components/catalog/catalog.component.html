@@ -1,0 +1,8 @@
+<section class="w-full">
+  <h1 class="title">Catalogo de productos app</h1>
+  <div class="product-container">
+    @for (product of products; track $index) {
+      <product-card [product]="product" (productEventEmitter)="onAddCart($event)"/>
+    }
+  </div>
+</section>

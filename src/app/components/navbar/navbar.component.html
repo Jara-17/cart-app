@@ -1,0 +1,12 @@
+<header class="p-8 border-indigo-500 border-b-2">
+  <nav class="flex justify-between items-center">
+    <span class="logo">Cart App</span>
+
+    <div>
+      <button (click)="openCart()" type="button" [class]="showCart ? 'btn-delete' : 'btn-primary' ">
+        {{ showCart ? "Ocultar" : "Mostrar" }} El Carro
+        {{ items.length > 0 ? "(" + items.length + ")" : "" }}
+      </button>
+  </div>
+  </nav>
+</header>

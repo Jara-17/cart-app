@@ -1,0 +1,7 @@
+.cart-table-container {
+  @apply border border-indigo-500 rounded-md shadow-md shadow-indigo-500 overflow-x-scroll overflow-hidden md:overflow-x-hidden
+}
+
+.cart-item {
+  @apply text-center p-4 border-y border-r last-of-type:border-r-0 border-indigo-500 text-gray-200
+}

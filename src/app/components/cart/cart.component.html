@@ -1,0 +1,48 @@
+<section class="w-full">
+  <h2 class="title">Carro de Compras</h2>
+
+  @if (items.length > 0) {
+    <div class="cart-table-container">
+      <table class="min-w-full">
+        <thead >
+          <tr>
+            <th class="px-4 py-2 text-white">Producto</th>
+            <th class="px-4 py-2 text-white">Precio</th>
+            <th class="px-4 py-2 text-white">Cantidad</th>
+            <th class="px-4 py-2 text-white">Total</th>
+            <th class="px-4 py-2 text-white">Eliminar</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of items; track $index) {
+            <tr class="text-white">
+              <td class="cart-item">{{item.product.name}}</td>
+              <td class="cart-item">{{item.product.price | currency: 'EUR'}}</td>
+              <td class="cart-item">{{item.quantity}}</td>
+              <td class="cart-item">{{item.product.price * item.quantity | currency: 'EUR'}}</td>
+              <td class="cart-item">
+                <button 
+                  type="button" 
+                  class="btn-delete"
+                  (click)="onDeleteCart(item.product.id)"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+
+        <tfoot class="text-white text-4xl">
+          <td colspan="3" class="font-bold p-4">Total:</td>
+          <td colspan="2" class="text-end p-4">{{total | currency: 'EUR'}}</td>
+        </tfoot>
+      </table>
+    </div>
+  } @else {
+    <p class="text-center my-10 py-8 text-xl text-indigo-500 border-2 border-indigo-500 rounded-md w-full">
+      No hay items en el carro
+    </p>
+  }
+</section>
