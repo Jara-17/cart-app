@@ -6,11 +6,12 @@ import { CatalogComponent } from '../../components/catalog/catalog.component';
 import { CartComponent } from '../../components/cart/cart.component';
 import { CartItem } from '../../models/cartItem';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { CartModalComponent } from '../../components/cart-modal/cart-modal.component';
 
 @Component({
   selector: 'cart-app',
   standalone: true,
-  imports: [CommonModule, CatalogComponent, CartComponent, NavbarComponent],
+  imports: [CommonModule, CatalogComponent, CartModalComponent, NavbarComponent],
   templateUrl: './cart-app.component.html',
   styleUrl: './cart-app.component.css',
 })
@@ -73,7 +74,7 @@ export class CartAppComponent implements OnInit {
     sessionStorage.setItem('cart', JSON.stringify(this.items))
   }
 
-  openCart() {
+  openCloseCart() {
     this.showCart = !this.showCart;
   }
 }

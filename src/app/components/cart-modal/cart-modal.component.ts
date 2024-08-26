@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
+import { CartComponent } from '../cart/cart.component';
 import { CartItem } from '../../models/cartItem';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'cart',
+  selector: 'cart-modal',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+  imports: [CartComponent],
+  templateUrl: './cart-modal.component.html',
+  styleUrl: './cart-modal.component.css',
 })
-export class CartComponent {
+export class CartModalComponent {
   @Input() items: CartItem[] = [];
   @Input() total: number = 0;
   @Output() idProductEventEmitter = new EventEmitter<number>();

@@ -12,7 +12,7 @@ export class NavbarComponent {
   @Input() showCart: boolean = false;
   @Input() items: CartItem[] = [];
   @Output() openCartEventEmitter = new EventEmitter<boolean>();
-
+  
   openCart() {
     this.openCartEventEmitter.emit();
   };
