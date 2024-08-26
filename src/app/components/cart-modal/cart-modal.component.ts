@@ -11,7 +11,6 @@ import { CartItem } from '../../models/cartItem';
 })
 export class CartModalComponent {
   @Input() items: CartItem[] = [];
-  @Input() total: number = 0;
   @Output() idProductEventEmitter = new EventEmitter<number>();
   @Output() openCartEventEmitter = new EventEmitter<boolean>();
 

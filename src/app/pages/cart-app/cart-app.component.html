@@ -9,7 +9,6 @@
     <catalog [products]="products" (productEventEmitter)="onAddCart($event)" />
     @if (showCart) {
       <cart-modal
-        [total]="total"
         [items]="items"
         (idProductEventEmitter)="onDeleteCart($event)"
         (openCartEventEmitter)="openCloseCart()"
