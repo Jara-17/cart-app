@@ -1,12 +1,23 @@
 <header class="header-container">
   <nav class="header-content">
-    <span class="logo">Cart App</span>
+    <a routerLink="/catalog">
+      <span class="logo">Cart App</span>
+    </a>
 
-    <div>
-      <button (click)="openCart()" type="button" class="btn-primary">
-        Ver Carro
+    <div class="links-container">
+      <a class="link" routerLink="/catalog"> Catalogo </a>
+
+      <a
+        class="link"
+        routerLink="/cart"
+        [state]="{
+          items,
+          total
+        }"
+      >
+        Carro
         {{ items.length > 0 ? "(" + items.length + ")" : "" }}
-      </button>
+      </a>
     </div>
   </nav>
 </header>

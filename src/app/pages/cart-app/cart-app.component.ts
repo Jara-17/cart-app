@@ -1,81 +1,123 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
-import { CatalogComponent } from '../../components/catalog/catalog.component';
-import { CartComponent } from '../../components/cart/cart.component';
 import { CartItem } from '../../models/cartItem';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { CartModalComponent } from '../../components/cart-modal/cart-modal.component';
+import { Router, RouterOutlet } from '@angular/router';
+import { SharingDataService } from '../../services/sharing-data.service';
+import { CustomFooterComponent } from '../../components/custom-footer/custom-footer.component';
+import Swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
   selector: 'cart-app',
   standalone: true,
-  imports: [CommonModule, CatalogComponent, CartModalComponent, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, RouterOutlet, CustomFooterComponent],
   templateUrl: './cart-app.component.html',
   styleUrl: './cart-app.component.css',
 })
 export class CartAppComponent implements OnInit {
-  products: Product[] = [];
   items: CartItem[] = [];
-  // total: number = 0;
-  showCart: boolean = false;
+  total: number = 0;
+  private options: SweetAlertOptions = {
+    title: 'Estás Seguro?',
+    text: 'Estas a punto de eliminar un producto del carro de compras. ¿Quieres Continuar??!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, Eliminar!!',
+  };
 
-  private service: ProductService = inject(ProductService);
+  private sharingDataService: SharingDataService = inject(SharingDataService);
+  private router: Router = inject(Router);
 
   ngOnInit(): void {
-    this.products = this.service.findAll();
     this.items = JSON.parse(sessionStorage.getItem('cart') || '[]');
-    // this.calculateTotal();
+    this.calculateTotal();
+    this.onDeleteCart();
+    this.onAddCart();
   }
 
-  onAddCart(product: Product) {
-    const hasItem = this.items.find((item) => item.product.id === product.id);
+  onAddCart(): void {
+    this.sharingDataService.productEventEmitter.subscribe((product) => {
+      const hasItem = this.items.find((item) => item.product.id === product.id);
 
-    if (hasItem) {
-      this.items = this.items.map((item) => {
-        if (item.product.id === product.id) {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-        }
-  
-        return item;
-      });
-    } else {
-      this.items = [
-        ...this.items,
-        {
-          product: { ...product },
-          quantity: 1,
+      if (hasItem) {
+        this.items = this.items.map((item) => {
+          if (item.product.id === product.id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+
+          return item;
+        });
+      } else {
+        this.items = [
+          ...this.items,
+          {
+            product: { ...product },
+            quantity: 1,
+          },
+        ];
+      }
+
+      this.calculateTotal();
+      this.saveSession();
+      this.router.navigate(['/cart'], {
+        state: {
+          items: this.items,
+          total: this.total,
         },
-      ];
-    }
-    
-    // this.calculateTotal();
-    // this.saveSession();
+      });
+
+      Swal.fire({
+        title: 'Carro de Compras',
+        text: 'Se ha agregado un nuevo producto al corro de compras!',
+        icon: 'success',
+      });
+    });
   }
 
-  onDeleteCart(id: number) {
-    this.items = this.items.filter((item) => item.product.id !== id);
-    
-    // this.calculateTotal();
-    // this.saveSession();
+  onDeleteCart(): void {
+    this.sharingDataService.idProductEventEmitter.subscribe((id) => {
+      Swal.fire(this.options).then((result) => {
+        if (result.isConfirmed) {
+          this.items = this.items.filter((item) => item.product.id !== id);
+
+          this.calculateTotal();
+          this.saveSession();
+
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/cart'], {
+                state: {
+                  items: this.items,
+                  total: this.total,
+                },
+              });
+            });
+
+          Swal.fire({
+            title: 'Eliminado!',
+            text: 'El producto ha sido eliminado con éxito!',
+            icon: 'success',
+          });
+        }
+      });
+    });
   }
 
-  // calculateTotal() {
-  //   this.total = this.items.reduce(
-  //     (total, item) => total + item.product.price * item.quantity,
-  //     0
-  //   );
-  // }
+  calculateTotal() {
+    this.total = this.items.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
+  }
 
-  // saveSession() {
-  //   sessionStorage.setItem('cart', JSON.stringify(this.items))
-  // }
-
-  openCloseCart() {
-    this.showCart = !this.showCart;
+  saveSession() {
+    sessionStorage.setItem('cart', JSON.stringify(this.items));
   }
 }

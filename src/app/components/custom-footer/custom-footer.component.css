@@ -1,0 +1,7 @@
+.footer-container {
+  @apply p-8 border-indigo-500 border-t-2 mt-16
+}
+
+.footer-content {
+  @apply text-2xl text-indigo-500 text-center
+}

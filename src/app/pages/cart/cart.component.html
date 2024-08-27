@@ -1,14 +1,5 @@
-<section class="max-h-screen overflow-y-auto w-full bg-gray-900 p-8 rounded-lg">
-  <div class="flex justify-between items-center gap-4">
-    <h2 class="title">Carro de Compras</h2>
-    <button
-        (click)="closeCart()"
-        type="button"
-        class="btn-delete"
-      >
-        X
-      </button>
-  </div>
+<section class="w-full bg-gray-900 rounded-lg">
+  <h2 class="title">Carro de Compras</h2>
 
   @if (items.length > 0) {
     <div class="cart-table-container">

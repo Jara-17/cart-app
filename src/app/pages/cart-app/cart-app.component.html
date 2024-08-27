@@ -1,18 +1,7 @@
-<navbar
-  [items]="items"
-  [showCart]="showCart"
-  (openCartEventEmitter)="openCloseCart()"
-/>
+<navbar [items]="items" [total]="total" />
 
 <main class="p-8">
-  <div class="flex flex-col xl:flex-row justify-between gap-8">
-    <catalog [products]="products" (productEventEmitter)="onAddCart($event)" />
-    @if (showCart) {
-      <cart-modal
-        [items]="items"
-        (idProductEventEmitter)="onDeleteCart($event)"
-        (openCartEventEmitter)="openCloseCart()"
-      />
-    }
-  </div>
+  <router-outlet />
 </main>
+
+<custom-footer/>
