@@ -17,16 +17,30 @@ import Swal, { SweetAlertOptions } from 'sweetalert2';
 export class CartAppComponent implements OnInit {
   items: CartItem[] = [];
   total: number = 0;
-  private options: SweetAlertOptions = {
-    title: 'Estás Seguro?',
-    text: 'Estas a punto de eliminar un producto del carro de compras. ¿Quieres Continuar??!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Si, Eliminar!!',
-  };
+  private options: SweetAlertOptions[] = [
+    {
+      title: 'Estás Seguro?',
+      text: 'Estas a punto de eliminar un producto del carro de compras. ¿Quieres Continuar??!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si, Eliminar!!',
+    },
+
+    {
+      title: 'Carro de Compras',
+      text: 'Se ha agregado un nuevo producto al corro de compras!',
+      icon: 'success',
+    },
+
+    {
+      title: 'Eliminado!',
+      text: 'El producto ha sido eliminado con éxito!',
+      icon: 'success',
+    },
+  ];
 
   private sharingDataService: SharingDataService = inject(SharingDataService);
   private router: Router = inject(Router);
@@ -72,17 +86,13 @@ export class CartAppComponent implements OnInit {
         },
       });
 
-      Swal.fire({
-        title: 'Carro de Compras',
-        text: 'Se ha agregado un nuevo producto al corro de compras!',
-        icon: 'success',
-      });
+      Swal.fire(this.options[1]);
     });
   }
 
   onDeleteCart(): void {
     this.sharingDataService.idProductEventEmitter.subscribe((id) => {
-      Swal.fire(this.options).then((result) => {
+      Swal.fire(this.options[0]).then((result) => {
         if (result.isConfirmed) {
           this.items = this.items.filter((item) => item.product.id !== id);
 
@@ -100,11 +110,7 @@ export class CartAppComponent implements OnInit {
               });
             });
 
-          Swal.fire({
-            title: 'Eliminado!',
-            text: 'El producto ha sido eliminado con éxito!',
-            icon: 'success',
-          });
+          Swal.fire(this.options[2]);
         }
       });
     });
